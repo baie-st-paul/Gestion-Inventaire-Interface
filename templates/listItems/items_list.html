@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Items List</h1>
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>name</th>
+        <th>description</th>
+        <th>category</th>
+        <th>total quantity</th>
+        <th>current quantity</th>
+        <th>location</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items_list %}
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.totalQuantity }}</td>
+        <td>{{ item.currentQuantity }}</td>
+        <td>{{ item.location }}</td>
+      {% endfor %}
+      
+    </tbody>
+</table>
+{% endblock %}
