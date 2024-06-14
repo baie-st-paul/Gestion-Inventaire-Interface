@@ -25,3 +25,7 @@ def add_item_to_inventory(form_json, data):
     
     data = json.loads(response.data)
     return data["id"]
+
+def delete_item(post_id):
+    response = urllib3.request("DELETE", "http://localhost:8081/api/v1/inventory/delete/"+post_id)
+    return response.data
