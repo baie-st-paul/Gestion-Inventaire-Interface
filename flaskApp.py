@@ -19,7 +19,7 @@ def items_list():
 def create_item():
     return render_template('createItem/create_item.html')
 
-@app.route("/itemlist/edititem")
+@app.route("/itemslist/edititem")
 def item_list_edit():
     items_list = fetch_inventory.all_inventory_items()
     return render_template('listItems/items_list.html', items_list=items_list, is_edit_page=True)
@@ -28,8 +28,9 @@ def item_list_edit():
 def edit_item(post_id):
     if request.method == "DELETE":
         fetch_inventory.delete_item(post_id)
+        return ""
     
-    return redirect(url_for('item_list_edit'))
+    return redirect(url_for('create_item'))
 
 @app.route("/posttest", methods=['POST'])
 def post_test():
