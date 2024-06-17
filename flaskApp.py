@@ -13,18 +13,23 @@ def home_page():
 @app.route("/itemslist")
 def items_list():
     items_list = fetch_inventory.all_inventory_items()
-    return render_template('listItems/items_list.html', items_list=items_list)
+    return render_template('listItems/items_list.html', items_list=items_list, is_edit_page=False)
 
 @app.route("/createitem")
 def create_item():
     return render_template('createItem/create_item.html')
+
+@app.route("/itemlist/edititem")
+def item_list_edit():
+    items_list = fetch_inventory.all_inventory_items()
+    return render_template('listItems/items_list.html', items_list=items_list, is_edit_page=True)
 
 @app.route("/itemslist/edit/<string:post_id>", methods=["DELETE", "PUT"])
 def edit_item(post_id):
     if request.method == "DELETE":
         fetch_inventory.delete_item(post_id)
     
-    return redirect(url_for('items_list'))
+    return redirect(url_for('item_list_edit'))
 
 @app.route("/posttest", methods=['POST'])
 def post_test():
@@ -35,4 +40,4 @@ def post_test():
    # EAN = barcode.get_barcode_class('ean13')
    # ean = EAN(str(item_id), writer=ImageWriter())
    # ean.save('barcode')
-    return render_template('createItem/create_item.html')
+    return redirect(url_for("create_item"))
