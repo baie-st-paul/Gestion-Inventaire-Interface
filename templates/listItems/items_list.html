@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
 
 {% block content %}
 <div class="d-flex">
@@ -26,23 +28,8 @@
     </thead>
     <tbody>
       {% for item in items_list %}
-      <tr id="item-row-{{ item.id }}">
-        <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.description }}</td>
-        <td>{{ item.category }}</td>
-        <td>{{ item.totalQuantity }}</td>
-        <td>{{ item.currentQuantity }}</td>
-        <td>{{ item.location }}</td>
-        {% if is_edit_page %}
-            <td>
-                <a href="#" class="btn btn-warning">edit</a>
-                <a hx-delete="{{ url_for('edit_item', post_id=item.id) }}" hx-confirm="Confirmer" hx-target="#item-row-{{ item.id }}" class="btn btn-danger">delete</a>
-            </td>
-        {% endif %}
-      </tr>
+        {{ macros.item_row(item, is_edit_page) }}
       {% endfor %}
-      
     </tbody>
 </table> 
 {% endblock %}
