@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, jsonify, url_for
+from flask import Flask, redirect, render_template, render_template_string, request, jsonify, url_for
 from api import fetch_inventory
 app = Flask(__name__)
 import sys
@@ -24,12 +24,26 @@ def item_list_edit():
     items_list = fetch_inventory.all_inventory_items()
     return render_template('listItems/items_list.html', items_list=items_list, is_edit_page=True)
 
+@app.route("/itemslist/editrow/<string:post_id>", methods=["GET"])
+def edit_row(post_id):
+    item = fetch_inventory.get_item(post_id)
+    return render_template("listItems/edit_item_row_template.html", item=item)
+
+@app.route("/itemslist/getrow/<string:post_id>", methods=["GET"])
+def get_row(post_id):
+    item = fetch_inventory.get_item(post_id)
+    
+    return render_template_string("{% import '_macros.html' as macros %}{{ macros.item_row(item, is_edit_page) }}", item=item, is_edit_page=True)
+
 @app.route("/itemslist/edit/<string:post_id>", methods=["DELETE", "PUT"])
 def edit_item(post_id):
     if request.method == "DELETE":
         fetch_inventory.delete_item(post_id)
         return ""
-    
+    if request.method == "PUT":
+        #form_data = request.form
+        #fetch_inventory.edit_item(form_data, post_id)
+        return "{{  }}"
     return redirect(url_for('create_item'))
 
 @app.route("/posttest", methods=['POST'])

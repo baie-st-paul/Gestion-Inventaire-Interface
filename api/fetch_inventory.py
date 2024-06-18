@@ -1,6 +1,9 @@
 import urllib3, json, base64
 
-
+def get_item(post_id):
+    response = urllib3.request("GET", "http://localhost:8081/api/v1/inventory/get/"+post_id)
+    data = json.loads(response.data)
+    return data
 
 def all_inventory_items():
     response = urllib3.request("GET", "http://localhost:8081/api/v1/inventory/getAll")
@@ -28,4 +31,18 @@ def add_item_to_inventory(form_json, data):
 
 def delete_item(post_id):
     response = urllib3.request("DELETE", "http://localhost:8081/api/v1/inventory/delete/"+post_id)
+    return response.data
+
+def edit_item(form_json, post_id):
+    encoded_body = json.dumps({
+        "name": form_json["name"],
+        "description": form_json["description"],
+        "category": form_json["category"],
+        "quantity": form_json["quantity"],
+        "location": form_json["location"]
+    })
+    response = urllib3.request("PUT", "http://localhost:8081/api/v1/inventory/update/"+post_id,
+                               headers={'Content-Type': 'application/json'},
+                               body=encoded_body
+                            )
     return response.data
