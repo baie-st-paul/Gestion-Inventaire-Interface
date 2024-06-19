@@ -27,13 +27,7 @@ def item_list_edit():
 @app.route("/itemslist/editrow/<string:post_id>", methods=["GET"])
 def edit_row(post_id):
     item = fetch_inventory.get_item(post_id)
-    return render_template("listItems/edit_item_row_template.html", item=item)
-
-@app.route("/itemslist/getrow/<string:post_id>", methods=["GET"])
-def get_row(post_id):
-    item = fetch_inventory.get_item(post_id)
-    
-    return render_template_string("{% import '_macros.html' as macros %}{{ macros.item_row(item, is_edit_page) }}", item=item, is_edit_page=True)
+    return render_template_string("{% import '_macros.html' as macros %}{{ macros.edit_item_row(item) }}", item=item)
 
 @app.route("/itemslist/edit/<string:post_id>", methods=["DELETE", "PUT"])
 def edit_item(post_id):
@@ -41,10 +35,10 @@ def edit_item(post_id):
         fetch_inventory.delete_item(post_id)
         return ""
     if request.method == "PUT":
-        #form_data = request.form
-        #fetch_inventory.edit_item(form_data, post_id)
-        return "{{  }}"
-    return redirect(url_for('create_item'))
+        fetch_inventory.edit_item(request.get_json(), post_id)
+        item = fetch_inventory.get_item(post_id)
+        return render_template_string("{% import '_macros.html' as macros %}{{ macros.item_row(item, is_edit_page) }}", item=item, is_edit_page=True)
+    return redirect(url_for('items_list'))
 
 @app.route("/posttest", methods=['POST'])
 def post_test():

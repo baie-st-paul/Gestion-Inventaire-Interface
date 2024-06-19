@@ -34,3 +34,42 @@
     {% endif %}
 </tr>
 {%- endmacro %}
+
+{% macro edit_item_row(item) -%}
+<tr id="item-row-{{ item.id }}">
+  <form id="edit_form-{{ item.id }}" hx-swap="outerHTML" hx-target="#item-row-{{ item.id }}"> 
+    <td>{{ item.id }}</td>
+    <td><input type="text" value="{{ item.name }}" id="name-{{ item.id }}" name="name" required></td>
+    <td><input type="text" value="{{ item.description }}" id="description-{{ item.id }}" name="description" required></td>
+    <td><input type="text" value="{{ item.category }}" id="category-{{ item.id }}" name="category" required></td>
+    <td><input type="number" value="{{ item.totalQuantity }}" id="totalQuantity-{{ item.id }}" name="totalQuantity" required></td>
+    <td><input type="number" value="{{ item.currentQuantity }}" id="currentQuantity-{{ item.id }}" name="currentQuantity" re6#66quired></td>
+    <td><input type="text" value="{{ item.location }}" id="location-{{ item.id }}" name="location" required></td>
+    <td>
+        <button type="submit" class="btn btn-success" id="edit-confirm-button-{{ item.id }}">Edit</button>
+    </td>
+  </form>
+</tr>
+<script>
+  $('#edit-confirm-button-{{ item.id }}').click(function() {
+    var data = {
+        name: $("#name-{{ item.id }}").val(),
+        description: $("#description-{{ item.id }}").val(),
+        category: $("#category-{{ item.id }}").val(),
+        totalQuantity: $("#totalQuantity-{{ item.id }}").val(),
+        currentQuantity: $("#currentQuantity-{{ item.id }}").val(),
+        location: $("#location-{{ item.id }}").val()
+    };
+    console.log(data);
+    $.ajax({
+        url: "{{ url_for('edit_item', post_id=item.id) }}",
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(response) {
+          $('#item-row-{{ item.id }}').replaceWith(response);
+        }
+    });
+  });
+</script>
+{%- endmacro %}

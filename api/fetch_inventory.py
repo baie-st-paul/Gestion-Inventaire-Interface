@@ -38,7 +38,8 @@ def edit_item(form_json, post_id):
         "name": form_json["name"],
         "description": form_json["description"],
         "category": form_json["category"],
-        "quantity": form_json["quantity"],
+        "totalQuantity": form_json["totalQuantity"],
+        "currentQuantity": form_json["currentQuantity"],
         "location": form_json["location"]
     })
     response = urllib3.request("PUT", "http://localhost:8081/api/v1/inventory/update/"+post_id,
