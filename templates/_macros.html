@@ -26,6 +26,12 @@
     <td>{{ item.totalQuantity }}</td>
     <td>{{ item.currentQuantity }}</td>
     <td>{{ item.location }}</td>
+    <td>{{ item.ressourceType }}</td>
+    <td>{{ item.local }}</td>
+    <td>{{ item.status }}</td>
+    <td>{{ item.consumable }}</td>
+    <td>{{ item.state }}</td>
+    <td>{{ item.project }}</td>
     {% if is_edit_page %}
         <td>
             <a hx-get="{{ url_for('edit_row', post_id=item.id) }}" hx-swap="outerHTML" hx-target="#item-row-{{ item.id }}" class="btn btn-warning">edit</a>
