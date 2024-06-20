@@ -4,7 +4,7 @@
 <div class="d-flex">
   <h1>Items List</h1>
   {% if is_edit_page %}
-      <a href="{{ url_for('items_list') }}" class="btn btn-warning m-auto">arret edit</a>
+      <a href="{{ url_for('items_list_page') }}" class="btn btn-warning m-auto">arret edit</a>
   {% else %}
       <a href="{{ url_for('item_list_edit') }}" class="btn btn-warning m-auto">edit</a>
   {% endif %}
