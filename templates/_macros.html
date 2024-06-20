@@ -7,10 +7,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('items_list') }}">Inventaire</a>
+            <a class="nav-link" href="{{ url_for('items_list_page') }}">Inventaire</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('create_item') }}">Ajout Item</a>
+            <a class="nav-link" href="{{ url_for('create_item_page') }}">Ajout Item</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('create_listing_page') }}">Ajout listing</a>
         </li>
       </ul>
     </div>
@@ -78,4 +81,17 @@
     });
   });
 </script>
+{%- endmacro %}
+
+{% macro create_listing_form(listing_type) -%}
+    <div class="card p-3">
+      <h2>Création {{ listing_type }}</h2>
+      <form method="post" action="{{ url_for('create_listing', listing_type=listing_type) }}" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nom</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Créer</button>
+      </form>
+    </div>
 {%- endmacro %}

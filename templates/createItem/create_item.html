@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Création Item</h1>
     <div class="card p-3">
-        <form method="POST" action="{{ url_for('post_test') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url_for('create_item') }}" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="name" class="form-label">Nom</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -21,8 +21,54 @@
                 <input type="number" class="form-control" id="quantity" name="quantity" required>
             </div>
             <div class="mb-3">
-                <label for="location" class="form-label">Emplacement</label>
+                <label for="location" class="form-label">Location</label>
                 <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+            <div class="mb-3">
+                <label for="consumable" class="form-label">Consommable</label>
+                <input type="checkbox" class="form-check-input" id="consumable" name="consumable">
+            </div>
+            <div class="mb-3 d-flex">
+                <div>
+                    <label for="ressourceType" class="form-label d-flex justify-content-center">Type de ressource</label>
+                    <select class="form-select" name="ressourceType">
+                        {% for ressourceType in ressource_types %}
+                            <option>{{ ressourceType }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="ms-1">
+                    <label for="local" class="form-label d-flex justify-content-center">Local</label>
+                    <select class="form-select" name="local">
+                        {% for local in locals %}
+                            <option>{{ local }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="ms-1">
+                    <label for="status" class="form-label d-flex justify-content-center">Statut</label>
+                    <select class="form-select" name="status">
+                        {% for status in status %}
+                            <option>{{ status }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="ms-1">
+                    <label for="state" class="form-label d-flex justify-content-center">État</label>
+                    <select class="form-select" name="state">
+                        {% for state in states %}
+                            <option>{{ state }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="ms-1">
+                    <label for="project" class="form-label d-flex justify-content-center">Projet</label>
+                    <select class="form-select" name="project">
+                        {% for project in projects %}
+                            <option>{{ project }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
             <div class="mb-3">
                 <input id="image" type="file" name="image" accept=".png,.jpg">

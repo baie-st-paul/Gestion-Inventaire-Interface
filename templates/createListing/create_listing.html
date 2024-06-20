@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Création listing</h1>
+    <select class="form-select" id="selection" onchange="htmxCall()">
+        <option value="ressourceType">Type de ressource</option>
+        <option value="local">Local</option>
+        <option value="project">Projet</option>
+    </select>
+    <div id="target" class="mt-3">
+
+    </div>
+    <script>
+        function htmxCall() {
+            var baseUrl = "{{ url_for('listing_form', selection='') }}";
+            var selection = $("#selection").val();
+            var url = baseUrl + selection;
+            htmx.ajax("GET",url , {target:"#target", swap:"innerHTML"} )
+        }
+    </script>
+{% endblock %}

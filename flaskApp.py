@@ -10,14 +10,27 @@ from barcode.writer import ImageWriter
 def home_page():
     return render_template('home/index.html')
 
-@app.route("/itemslist")
-def items_list():
+@app.route("/itemslistpage")
+def items_list_page():
     items_list = fetch_inventory.all_inventory_items()
     return render_template('listItems/items_list.html', items_list=items_list, is_edit_page=False)
 
-@app.route("/createitem")
-def create_item():
-    return render_template('createItem/create_item.html')
+@app.route("/createitempage")
+def create_item_page():
+    ressource_type_list = fetch_inventory.get_all_ressource_types()
+    local_list = fetch_inventory.get_all_locals()
+    project_list = fetch_inventory.get_all_projects()
+    state_list = fetch_inventory.get_all_states()
+    status_list = fetch_inventory.get_all_status()
+    return render_template('createItem/create_item.html', ressource_types=ressource_type_list, locals=local_list, projects=project_list, states=state_list, status=status_list)
+
+@app.route("/createlistingpage")
+def create_listing_page():
+    return render_template('createListing/create_listing.html')
+
+@app.route("/listingform/<string:selection>")
+def listing_form(selection):
+    return render_template_string("{% import '_macros.html' as macros %}{{ macros.create_listing_form(listing_type) }}", listing_type=selection)
 
 @app.route("/itemslist/edititem")
 def item_list_edit():
@@ -40,13 +53,20 @@ def edit_item(post_id):
         return render_template_string("{% import '_macros.html' as macros %}{{ macros.item_row(item, is_edit_page) }}", item=item, is_edit_page=True)
     return redirect(url_for('items_list'))
 
-@app.route("/posttest", methods=['POST'])
-def post_test():
+@app.route("/createitem", methods=['POST'])
+def create_item():
     file_data = request.files["image"].read()
     form_data = request.form
     item_id = fetch_inventory.add_item_to_inventory(form_data, file_data)
-    
-   # EAN = barcode.get_barcode_class('ean13')
-   # ean = EAN(str(item_id), writer=ImageWriter())
-   # ean.save('barcode')
-    return redirect(url_for("create_item"))
+    return redirect(url_for("create_item_page"))
+
+@app.route("/create_listing/<string:listing_type>", methods=['POST'])
+def create_listing(listing_type):
+    form_data = request.form
+    if listing_type == "ressourceType":
+        fetch_inventory.add_ressource_type(form_data["name"])
+    elif listing_type == "local":
+        fetch_inventory.add_local(form_data["name"])
+    elif listing_type == "project":
+        fetch_inventory.add_project(form_data["name"])
+    return redirect(url_for("create_listing_page"))
