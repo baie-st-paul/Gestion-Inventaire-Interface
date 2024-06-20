@@ -40,7 +40,12 @@ def item_list_edit():
 @app.route("/itemslist/editrow/<string:post_id>", methods=["GET"])
 def edit_row(post_id):
     item = fetch_inventory.get_item(post_id)
-    return render_template_string("{% import '_macros.html' as macros %}{{ macros.edit_item_row(item) }}", item=item)
+    ressource_type_list = fetch_inventory.get_all_ressource_types()
+    local_list = fetch_inventory.get_all_locals()
+    project_list = fetch_inventory.get_all_projects()
+    state_list = fetch_inventory.get_all_states()
+    status_list = fetch_inventory.get_all_status()
+    return render_template_string("{% import '_macros.html' as macros %}{{ macros.edit_item_row(item, ressource_types, locals, projects, states, status) }}", item=item, ressource_types=ressource_type_list, locals=local_list, projects=project_list, states=state_list, status=status_list)
 
 @app.route("/itemslist/edit/<string:post_id>", methods=["DELETE", "PUT"])
 def edit_item(post_id):

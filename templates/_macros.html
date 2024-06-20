@@ -44,7 +44,7 @@
 </tr>
 {%- endmacro %}
 
-{% macro edit_item_row(item) -%}
+{% macro edit_item_row(item, ressource_types, locals, projects, states, status) -%}
 <tr id="item-row-{{ item.id }}">
   <form id="edit_form-{{ item.id }}" hx-swap="outerHTML" hx-target="#item-row-{{ item.id }}"> 
     <td>{{ item.id }}</td>
@@ -54,6 +54,44 @@
     <td><input type="number" value="{{ item.totalQuantity }}" id="totalQuantity-{{ item.id }}" name="totalQuantity" required></td>
     <td><input type="number" value="{{ item.currentQuantity }}" id="currentQuantity-{{ item.id }}" name="currentQuantity" re6#66quired></td>
     <td><input type="text" value="{{ item.location }}" id="location-{{ item.id }}" name="location" required></td>
+    <td>
+      <select class="form-select" name="ressourceType" id="ressourceType-{{ item.id }}"">
+        {% for ressourceType in ressource_types %}
+          <option>{{ ressourceType }}</option>
+        {% endfor %}
+      </select>
+    </td>
+    <td>
+      <select class="form-select" name="local" id="local-{{ item.id }}">
+        {% for local in locals %}
+          <option>{{ local }}</option>
+        {% endfor %}
+      </select>
+    </td>
+    <td>
+      <select class="form-select" name="status" id="status-{{ item.id }}">
+        {% for status in status %}
+          <option>{{ status }}</option>
+        {% endfor %}
+      </select>
+    </td>
+    <td>
+      <input type="checkbox" class="form-check-input" id="consumable-{{ item.id }}" name="consumable">
+    </td>
+    <td>
+      <select class="form-select" name="state" id="state-{{ item.id }}">
+        {% for state in states %}
+          <option>{{ state }}</option>
+        {% endfor %}
+      </select>
+    </td>
+    <td>
+      <select class="form-select" name="project" id="project-{{ item.id }}">
+        {% for project in projects %}
+          <option>{{ project }}</option>
+        {% endfor %}
+      </select>
+    </td>
     <td>
         <button type="submit" class="btn btn-success" id="edit-confirm-button-{{ item.id }}">Edit</button>
     </td>
@@ -67,7 +105,13 @@
         category: $("#category-{{ item.id }}").val(),
         totalQuantity: $("#totalQuantity-{{ item.id }}").val(),
         currentQuantity: $("#currentQuantity-{{ item.id }}").val(),
-        location: $("#location-{{ item.id }}").val()
+        location: $("#location-{{ item.id }}").val(),
+        ressourceType: $("#ressourceType-{{ item.id }}").val(),
+        local: $("#local-{{ item.id }}").val(),
+        status: $("#status-{{ item.id }}").val(),
+        consumable: $("#consumable-{{ item.id }}").is(":checked"),
+        state: $("#state-{{ item.id }}").val(),
+        project: $("#project-{{ item.id }}").val()
     };
     console.log(data);
     $.ajax({
