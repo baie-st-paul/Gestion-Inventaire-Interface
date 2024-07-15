@@ -2,9 +2,6 @@ from flask import Flask, redirect, render_template, render_template_string, requ
 from api import fetch_inventory
 app = Flask(__name__)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
-
 @app.route('/')
 def home_page():
     return render_template('home/index.html')
@@ -74,3 +71,6 @@ def create_listing(listing_type):
     elif listing_type == "project":
         fetch_inventory.add_project(form_data["name"])
     return redirect(url_for("create_listing_page"))
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
