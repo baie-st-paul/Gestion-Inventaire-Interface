@@ -1,10 +1,9 @@
-from flask import Flask, redirect, render_template, render_template_string, request, jsonify, url_for
+from flask import Flask, redirect, render_template, render_template_string, request, url_for
 from api import fetch_inventory
 app = Flask(__name__)
-import sys
-import barcode
-from barcode.writer import ImageWriter
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
 
 @app.route('/')
 def home_page():

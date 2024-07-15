@@ -1,12 +1,12 @@
 import urllib3, json, base64
 
 def get_item(post_id):
-    response = urllib3.request("GET", "http://localhost:8081/api/v1/inventory/get/"+post_id)
+    response = urllib3.request("GET", "http://localhost:8083/api/v1/inventory/get/"+post_id)
     data = json.loads(response.data)
     return data
 
 def all_inventory_items():
-    response = urllib3.request("GET", "http://localhost:8081/api/v1/inventory/getAll")
+    response = urllib3.request("GET", "http://localhost:8083/api/v1/inventory/getAll")
     data = json.loads(response.data)
     return data
 
@@ -31,14 +31,14 @@ def add_item_to_inventory(form_json, data):
         "state": form_json["state"],
         "project": form_json["project"]
     })
-    response = urllib3.request("POST", "http://localhost:8081/api/v1/inventory/create",
+    response = urllib3.request("POST", "http://localhost:8083/api/v1/inventory/create",
                                headers={'Content-Type': 'application/json'},
                                body=encoded_body)
     data = json.loads(response.data)
     return data["id"]
 
 def delete_item(post_id):
-    response = urllib3.request("DELETE", "http://localhost:8081/api/v1/inventory/delete/"+post_id)
+    response = urllib3.request("DELETE", "http://localhost:8083/api/v1/inventory/delete/"+post_id)
     return response.data
 
 def edit_item(form_json, post_id):
@@ -56,36 +56,36 @@ def edit_item(form_json, post_id):
         "state": form_json["state"],
         "project": form_json["project"]
     })
-    response = urllib3.request("PUT", "http://localhost:8081/api/v1/inventory/update/"+post_id,
+    response = urllib3.request("PUT", "http://localhost:8083/api/v1/inventory/update/"+post_id,
                                headers={'Content-Type': 'application/json'},
                                body=encoded_body)
     return response.data
 
 def get_all_ressource_types():
-    response = urllib3.request("GET", "http://localhost:8081/api/v1/ressourcetype/getAll")
+    response = urllib3.request("GET", "http://localhost:8083/api/v1/ressourcetype/getAll")
     return json.loads(response.data)
 
 def get_all_locals():
-    response = urllib3.request("GET", "http://localhost:8081/api/v1/local/getAll")
+    response = urllib3.request("GET", "http://localhost:8083/api/v1/local/getAll")
     return json.loads(response.data)
 
 def get_all_projects():
-    response = urllib3.request("GET", "http://localhost:8081/api/v1/project/getAll")
+    response = urllib3.request("GET", "http://localhost:8083/api/v1/project/getAll")
     return json.loads(response.data)
 
 def get_all_states():
-    response = urllib3.request("GET", "http://localhost:8081/api/v1/state/getAll")
+    response = urllib3.request("GET", "http://localhost:8083/api/v1/state/getAll")
     return json.loads(response.data)
 
 def get_all_status():
-    response = urllib3.request("GET", "http://localhost:8081/api/v1/status/getAll")
+    response = urllib3.request("GET", "http://localhost:8083/api/v1/status/getAll")
     return json.loads(response.data)
 
 def add_ressource_type(name):
     encoded_body = json.dumps({
         "name": name
     })
-    response = urllib3.request("POST", "http://localhost:8081/api/v1/ressourcetype/create",
+    response = urllib3.request("POST", "http://localhost:8083/api/v1/ressourcetype/create",
                                headers={'Content-Type': 'application/json'},
                                body=encoded_body)
     return response.data
@@ -94,7 +94,7 @@ def add_local(name):
     encoded_body = json.dumps({
         "name": name
     })
-    response = urllib3.request("POST", "http://localhost:8081/api/v1/local/create",
+    response = urllib3.request("POST", "http://localhost:8083/api/v1/local/create",
                                headers={'Content-Type': 'application/json'},
                                body=encoded_body)
     return response.data
@@ -103,7 +103,7 @@ def add_project(name):
     encoded_body = json.dumps({
         "name": name
     })
-    response = urllib3.request("POST", "http://localhost:8081/api/v1/project/create",
+    response = urllib3.request("POST", "http://localhost:8083/api/v1/project/create",
                                headers={'Content-Type': 'application/json'},
                                body=encoded_body)
     return response.data
